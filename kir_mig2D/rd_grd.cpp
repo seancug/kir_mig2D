@@ -62,10 +62,10 @@ float** rd_grd(char* filename, int &nt, int &nx, float &dt, float &dx)
 	fclose(fp);
 
 	/*FILE *fpout = NULL;
-	fpout = fopen("test.txt", "w");
+	fpout = fopen("../data/aryin.txt", "w");
 	for (int j = 1; j <= nt; j++) {
 		for (int i = 1; i <= nx; i++) {
-			fprintf(fpout, "%.3e\t", arryout[i][j]);
+			fprintf(fpout, "%.3e\t", aryout[i][j]);
 		}
 		fprintf(fpout, "\n");
 	}
