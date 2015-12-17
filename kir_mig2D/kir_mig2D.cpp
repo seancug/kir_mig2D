@@ -88,37 +88,37 @@ int main(int agrc, char *agrv[])
 		aper_f = max(1, ktr - radius);
 		aper_e = min(ktr, ktr + radius);
 
-		for (int kt = 1; kt <= nt; kt++) {/*每个地震道上的采样点*/
+		for (int kt = 2; kt <= nt; kt++) {/*每个地震道上的采样点*/
 			for (int kaper = aper_f; kaper <= aper_e; kaper++) {/*积分半径里面的地震道*/
 				tmp = 0.0;
 				t_radius = sqrt(pow(2.0*(kaper - ktr)*dx / aryvel[ktr][kt], 2.0) + pow(t[kt], 2.0));
-//				cosTheta = t[kt] / (t_radius + 1e-32);
 
-//				if (cosTheta > cos(ang_lim))
-//					cosTheta = 0.0;
+				cosTheta = t[kt] / t_radius;
 
 				if (t_radius <= t[nt]) {
 					spline(t, aryin[kaper], nt, 0, 0, y2);
 					splint(t, aryin[kaper], y2, nt, t_radius, &tmp);
+				}
+				else {
+					break;
 				}
 
 				if (abs(kaper - ktr)*dx > 0.5*aper) {
 					tmp = tmp*cos(daper*(abs(kaper - ktr)*dx - 0.5*aper));
 				}
 
-	//			arymig[ktr][kt] = arymig[ktr][kt] + tmp*cosTheta / t_radius;
-				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
+				arymig[ktr][kt] = arymig[ktr][kt] + tmp*cosTheta / t_radius;
+				//				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
 			}
-			//arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * 2 * PI);
+			arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * 2 * PI);
 		}
 
-		//if (ktr % 20 == 0) {
 		nmig = clock();
 		timeuse = (double)(nmig - bmig) / CLOCKS_PER_SEC;
 		hour = (int)(timeuse / 60.0 / 60.0);
 		min = (int)((timeuse - 60.0*60.0*hour) / 60.0);
 		sec = (int)(timeuse - 60.0*60.0*hour - min * 60.0);
-		//	}
+		
 		static unsigned char w[] = "///-";
 		if (p1++ == 3) p1 = 0;
 		printf("\rUsed Time::%dh %dm %ds\t--Finished Percent:%.1f %c %c",
@@ -132,7 +132,7 @@ int main(int agrc, char *agrv[])
 
 	/*ouput data*/
 	FILE *fpout = NULL;
-	fpout = fopen("data.txt", "w");
+	fpout = fopen("../data/data.txt", "w");
 	for (int j = 1; j <= nt; j++) {
 		for (int i = 1; i <= nx; i++) {
 			fprintf(fpout, "%.3e\t", arymig[i][j]);
@@ -141,10 +141,7 @@ int main(int agrc, char *agrv[])
 	}
 	fclose(fpout);
 
-
-
 	free_matrix(arymig, 1, nx, 1, nt);
-
 	free_vector(x, 1, nx);
 	free_vector(t, 1, nt);
 
@@ -164,9 +161,7 @@ int main(int agrc, char *agrv[])
 		, RetTime1->tm_hour
 		, RetTime1->tm_min
 		, RetTime1->tm_sec);
-
 	printf("%s\n", end_time);
-
 	printf("Press the 'Enter' button to End\n");
 	(void)getchar();
 	return 0;
