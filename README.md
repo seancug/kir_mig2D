@@ -6,3 +6,15 @@
 ##*分支
 	*master分支 普通绕射叠加偏移（没有1/(cos(a)*r)因子）
 	*Kir_cmig分支 克西霍夫偏移
+	
+![](https://github.com/seancug/kir_mig2D/tree/master/picture/model.jpg)
+>>>>>###model
+
+![](https://github.com/seancug/kir_mig2D/tree/master/picture/before_migraton.jpg)
+>>>>>###地震剖面
+
+![](https://github.com/seancug/kir_mig2D/tree/master/picture/simple_migration.jpg)
+>>>>>###普通绕射叠加偏移
+
+![](https://github.com/seancug/kir_mig2D/tree/master/picture/Kirchhoff_migration.jpg)
+>>>>>###克西霍夫偏移
