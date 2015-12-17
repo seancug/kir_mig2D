@@ -60,7 +60,6 @@ float** rd_grd(char* filename, int &nt, int &nx, float &dt, float &dx)
 	}
 	printf("\n");
 	fclose(fp);
-	printf("---------------read grd over----------------");
 
 	/*FILE *fpout = NULL;
 	fpout = fopen("test.txt", "w");

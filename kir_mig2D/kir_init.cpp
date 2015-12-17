@@ -17,17 +17,24 @@
 **	  para[5]: ang_lim,  para[6]: width_ang
 **********************************************
 */
-int kir_init(float **aryin, float **aryvel, float *t, float *x, int *size, float *para)
+int kir_init(float ***aryin, float ***aryvel, float **t, float **x, int *size, float *para)
 {
-	aryin = rd_grd("../data/seisthrust.grd", size[1], size[2], para[1], para[2]);
-	aryvel = rd_grd("../data/velrms.grd", size[1], size[2], para[1], para[2]);
-	para[3] = size[2] * para[2];
+	float **seis = NULL, **vel = NULL;
+	seis = rd_grd("../data/seisthrust.grd", size[1], size[2], para[1], para[2]);
+	vel = rd_grd("../data/velrms.grd", size[1], size[2], para[1], para[2]);
+
+	*aryin = seis;
+	*aryvel = vel;
+	para[3] = 3000.0;
 	para[4] = 0.05*para[3];
 	para[5] = PI / 3;
 	para[6] = 0.15*para[5];
-	t = vector(1, size[1]);
-	x = vector(1, size[2]);
-	for (int j = 0; j < size[1]; j++) t[j + 1] = j*para[1];
-	for (int i = 0; i < size[2]; i++) x[i + 1] = i*para[2];
+	float *tt,*xx;
+	tt = vector(1, size[1]);
+	xx = vector(1, size[2]);
+	for (int j = 0; j < size[1]; j++) tt[j + 1] = j*para[1];
+	for (int i = 0; i < size[2]; i++) xx[i + 1] = i*para[2];
+	*t = tt;
+	*x = xx;
 	return 0;
 }

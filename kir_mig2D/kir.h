@@ -1,8 +1,11 @@
 #ifndef KIR_h
 #define KIR_H
 #include <stdio.h>
-#include <iostream>
+#include <math.h>
 #define PI 3.1415926535898
+#define iround(x) ((int)(floor)((x)+0.5))
+#define min(x,y) ((x<y)?x:y)
+#define max(x,y) ((x<y)?y:x)
 
 /* Numerical Recipes standard error handler */
 void nrerror(char error_text[]);
@@ -26,8 +29,12 @@ float **matrix(long nrl, long nrh, long ncl, long nch);
 void free_matrix(float **m, long nrl, long nrh, long ncl, long nch);
 
 /* initiate the parameters*/
-int kir_init(float **arryin, float **arryvel, float *t, float *x, int *size, float *para);
+int kir_init(float ***arryin, float ***arryvel, float **t, float **x, int *size, float *para);
 
 /*read data from grd*/
 float** rd_grd(char* filename, int &nt, int &nx, float &dt, float &dx);
+
+/*spline interpolation*/
+void spline(float x[], float y[], int n, float yp1, float ypn, float y2[]);
+void splint(float xa[], float ya[], float y2a[], int n, float x, float *y);
 #endif
