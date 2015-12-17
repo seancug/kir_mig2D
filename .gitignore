@@ -210,4 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-data.txt
+*.txt
+vel.grd
