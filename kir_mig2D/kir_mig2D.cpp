@@ -93,24 +93,20 @@ int main(int agrc, char *agrv[])
 				tmp = 0.0;
 				t_radius = sqrt(pow(2.0*(kaper - ktr)*dx / aryvel[ktr][kt], 2.0) + pow(t[kt], 2.0));
 
-//				cosTheta = t[kt] / t_radius;
+				cosTheta = t[kt] / t_radius;
 
 				if (t_radius <= t[nt]) {
 					spline(t, aryin[kaper], nt, 0, 0, y2);
 					splint(t, aryin[kaper], y2, nt, t_radius, &tmp);
 				}
-				else {
-					break;
-				}
-
+				
 				if (abs(kaper - ktr)*dx > 0.5*aper) {
 					tmp = tmp*cos(daper*(abs(kaper - ktr)*dx - 0.5*aper));
 				}
 
-				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
-				//				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
+				arymig[ktr][kt] = arymig[ktr][kt] + tmp*cosTheta / t_radius;
 			}
-		//	arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * 2 * PI);
+			arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * aryvel[ktr][kt] * 2 * PI);
 		}
 
 		/*nmig = clock();
