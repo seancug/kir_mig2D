@@ -86,7 +86,7 @@ int main(int agrc, char *agrv[])
 	printf("\n");
 	for (int ktr = 1; ktr <= nx; ktr++) {/*每一个地震道*/
 		aper_f = max(1, ktr - radius);
-		aper_e = min(ktr, ktr + radius);
+		aper_e = min(nx, ktr + radius);
 
 		for (int kt = 1; kt <= nt; kt++) {/*每个地震道上的采样点*/
 			for (int kaper = aper_f; kaper <= aper_e; kaper++) {/*积分半径里面的地震道*/
@@ -132,7 +132,7 @@ int main(int agrc, char *agrv[])
 
 	/*ouput data*/
 	FILE *fpout = NULL;
-	fpout = fopen("data.txt", "w");
+	fpout = fopen("data1.txt", "w");
 	for (int j = 1; j <= nt; j++) {
 		for (int i = 1; i <= nx; i++) {
 			fprintf(fpout, "%.3e\t", arymig[i][j]);
