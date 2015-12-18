@@ -86,14 +86,14 @@ int main(int agrc, char *agrv[])
 	printf("\n");
 	for (int ktr = 1; ktr <= nx; ktr++) {/*每一个地震道*/
 		aper_f = max(1, ktr - radius);
-		aper_e = min(ktr, ktr + radius);
+		aper_e = min(nx, ktr + radius);
 
 		for (int kt = 2; kt <= nt; kt++) {/*每个地震道上的采样点*/
 			for (int kaper = aper_f; kaper <= aper_e; kaper++) {/*积分半径里面的地震道*/
 				tmp = 0.0;
 				t_radius = sqrt(pow(2.0*(kaper - ktr)*dx / aryvel[ktr][kt], 2.0) + pow(t[kt], 2.0));
 
-				cosTheta = t[kt] / t_radius;
+//				cosTheta = t[kt] / t_radius;
 
 				if (t_radius <= t[nt]) {
 					spline(t, aryin[kaper], nt, 0, 0, y2);
@@ -107,22 +107,24 @@ int main(int agrc, char *agrv[])
 					tmp = tmp*cos(daper*(abs(kaper - ktr)*dx - 0.5*aper));
 				}
 
-				arymig[ktr][kt] = arymig[ktr][kt] + tmp*cosTheta / t_radius;
+				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
 				//				arymig[ktr][kt] = arymig[ktr][kt] + tmp;
 			}
-			arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * 2 * PI);
+		//	arymig[ktr][kt] = arymig[ktr][kt] / (aryvel[ktr][kt] * 2 * PI);
 		}
 
-		nmig = clock();
+		/*nmig = clock();
 		timeuse = (double)(nmig - bmig) / CLOCKS_PER_SEC;
 		hour = (int)(timeuse / 60.0 / 60.0);
 		min = (int)((timeuse - 60.0*60.0*hour) / 60.0);
 		sec = (int)(timeuse - 60.0*60.0*hour - min * 60.0);
-		
+		*/
 		static unsigned char w[] = "///-";
 		if (p1++ == 3) p1 = 0;
-		printf("\rUsed Time::%dh %dm %ds\t--Finished Percent:%.1f %c %c",
-			hour, min, sec, 100.0*(ktr) / nx, '%', w[p1]);
+	/*	printf("\rUsed Time::%dh %dm %ds\t--Finished Percent:%.1f %c %c",
+			hour, min, sec, 100.0*(ktr) / nx, '%', w[p1]);*/
+		printf("\r--Finished Percent:%.1f %c %c",
+			100.0*(ktr) / nx, '%', w[p1]); 
 		fflush(stdout);
 	}
 
@@ -132,7 +134,7 @@ int main(int agrc, char *agrv[])
 
 	/*ouput data*/
 	FILE *fpout = NULL;
-	fpout = fopen("../data/data.txt", "w");
+	fpout = fopen("../data/data3.txt", "w");
 	for (int j = 1; j <= nt; j++) {
 		for (int i = 1; i <= nx; i++) {
 			fprintf(fpout, "%.3e\t", arymig[i][j]);
