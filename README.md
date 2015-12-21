@@ -6,6 +6,7 @@
 ##*分支
 	*master分支 普通绕射叠加偏移（没有1/(cos(a)*r)因子）
 	*Kir_cmig分支 克西霍夫偏移
+	*thread分支   支持多线程
 	
 ![model](https://raw.githubusercontent.com/seancug/kir_mig2D/Kir_cmig/picture/model.gif)
 ####model
