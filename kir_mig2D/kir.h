@@ -2,6 +2,7 @@
 #define KIR_H
 #include <stdio.h>
 #include <math.h>
+#include <atomic>
 #define PI 3.1415926535898
 #define iround(x) ((int)(floor)((x)+0.5))
 #define min(x,y) ((x<y)?x:y)
@@ -37,4 +38,23 @@ float** rd_grd(char* filename, int &nt, int &nx, float &dt, float &dx);
 /*spline interpolation*/
 void spline(float x[], float y[], int n, float yp1, float ypn, float y2[]);
 void splint(float xa[], float ya[], float y2a[], int n, float x, float *y);
+class Params
+{
+public:
+	Params() {}
+	~Params() {}
+
+	float **aryin;
+	float **aryvel;
+	float *t;
+	float dt;         //时间间隔
+	float dx;         //道间距
+	float aper;       //偏移孔径，aperture
+	int nx;     //地震道数
+	int nt;     //采样点数
+	int radius;
+	float daper;
+};
+
+void mig_loop(float **arymig, Params parin, int sp, int ep, int i);
 #endif

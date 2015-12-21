@@ -153,6 +153,7 @@
     <ClCompile Include="alloc.cpp" />
     <ClCompile Include="kir_init.cpp" />
     <ClCompile Include="kir_mig2D.cpp" />
+    <ClCompile Include="mig_loop.cpp" />
     <ClCompile Include="rd_grd.cpp" />
     <ClCompile Include="spline.cpp" />
     <ClCompile Include="stdafx.cpp">
